@@ -14,6 +14,13 @@ public class DayOne {
         ArrayList<Integer> dataList = readData("src/dayone/input_data.txt");
         int answer = solveChallenge(dataList);
         System.out.println(answer);
+
+        // part 2
+        // How many sums are larger than the previous sum?
+        partTwo_checkAgainstExample();
+
+        int answer_partTwo = partTwo_solveChallenge(dataList);
+        System.out.println(answer_partTwo);
     }
 
     private static ArrayList<Integer> readData(String file) {
@@ -39,7 +46,7 @@ public class DayOne {
             int currentValue = measurementList.get(i);
             if (i > 0) {
                 if (currentValue > previousValue) {
-                    totalMeasurementsLargerThanPrevious = totalMeasurementsLargerThanPrevious + 1;
+                    totalMeasurementsLargerThanPrevious += 1;
                 }
             }
             previousValue = currentValue;
@@ -51,6 +58,35 @@ public class DayOne {
         // example data provided in instructions for verifying
         ArrayList<Integer> dataList = readData("src/dayone/test_data.txt");
         int answer = solveChallenge(dataList);
+        System.out.println(answer);
+    }
+
+    private static int partTwo_solveChallenge(ArrayList<Integer> measurementList) {
+        // How many sums are larger than the previous sum?
+        int sumsLargerThanPrevious = 0;
+        int previousSum = 0;
+        int count = 0;
+        for (int i = 0; i < measurementList.size(); i++) {
+            if (i+1 < measurementList.size() && i+2 < measurementList.size()) {
+                int currentValue = measurementList.get(i);
+                int oneAbove = measurementList.get(i+1);
+                int twoAbove = measurementList.get(i+2);
+                int sum = currentValue + oneAbove + twoAbove;
+                if (i > 0) {
+                    if (sum > previousSum) {
+                        sumsLargerThanPrevious += 1;
+                    }
+                }
+                previousSum = sum;
+            }
+        }
+        return sumsLargerThanPrevious;
+    }
+
+    private static void partTwo_checkAgainstExample() {
+        // example data provided in instructions for verifying
+        ArrayList<Integer> dataList = readData("src/dayone/test_data.txt");
+        int answer = partTwo_solveChallenge(dataList);
         System.out.println(answer);
     }
 }
